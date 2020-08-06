@@ -76,7 +76,71 @@ function viewEmployee() {
         if (err) throw err;
 
         console.table(res);
-        
+
         firstPrompt();
     })
+}
+
+function viewDepartment() {
+    var query = "SELECT * FROM department";
+
+    connection.query(query, function (err, res) {
+        if(err) throw err;
+
+        console.table(res);
+
+        firstPrompt();
+    })
+}
+
+function viewRoles() {
+    var query = "SELECT * FROM roles";
+
+    connection.query(query, function (err, res) {
+        if(err) throw err;
+
+        console.table(res);
+
+        firstPrompt();
+    })
+}
+
+function addEmployee() {
+    var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?, ?, ?)";
+
+    inquirer
+    .prompt([
+        {
+            name: "firstName",
+            type: "input",
+            message: "First name?"
+        },
+        {
+            name: "lastName",
+            type: "input",
+            messsage: "Last name?"
+        },
+        {
+            name: "roleID",
+            type: "input",
+            message: "What is the employee role id?"
+        },
+        {
+            name: "managerID",
+            type: "input",
+            message: "What is the manager id?"
+        }
+    ]).then(function(res) {
+        var employee = [res.firstName, res.lastName, res.roleID, res.managerID];
+
+        connection.query(query, employee, function(err, res) {
+            if (err) throw err;
+            console.log("Added employee");
+            firstPrompt();
+        })
+    })
+}
+
+function addRole() {
+    var query = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)"
 }

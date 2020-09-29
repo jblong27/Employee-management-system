@@ -1,4 +1,4 @@
-INSERT INTO department (dept) VALUES
+INSERT INTO department (department) VALUES
 ("Executive"),
 ("Sales"),
 ("Accounting"),
@@ -8,14 +8,14 @@ INSERT INTO department (dept) VALUES
 SELECT * FROM department;
 
 INSERT INTO roles (title, salary, department_id) VALUES
-("CEO", 900,000, 1),
-("CFO", 750,000, 1),
-("COO", 750,000, 1),
-("Accountant", 75,000, 3),
-("Financial planner", 60,000, 4),
-("Sales associate", 40,000, 2),
-("IT department head", 120,000),
-("Help desk technician", 55,000, 5);
+("CEO", 900000, 1),
+("CFO", 750000, 1),
+("COO", 750000, 1),
+("Accountant", 75000, 3),
+("Financial planner", 60000, 4),
+("Sales associate", 40000, 2),
+("IT department head", 120000, 5),
+("Help desk technician", 55000, 5);
 
 SELECT * FROM roles;
 

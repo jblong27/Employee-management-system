@@ -1,18 +1,18 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-const consoleTable = require("console.table");
+const cTable = require("console.table");
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
     password: "",
-    database: employee_trackerDB
+    database: "employee_manager"
 });
 
 connection.connect(function (err) {
     if (err) throw err;
-
+    console.log("Listening on port 3306");
     firstPrompt();
 });
 
@@ -143,4 +143,70 @@ function addEmployee() {
 
 function addRole() {
     var query = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)"
+    inquirer.prompt([
+        {
+            name: "title",
+            type: "input",
+            message: "What is the new role?"
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "What is the new salary for the role?"
+        },
+        {
+            name: "depID",
+            type: "input",
+            message: "What is the department ID for the new role?"
+        }
+    ]).then(function(res) {
+        var role = [res.title, res.salary, res.depID];
+        connection.query(query, role, function(err, res) {
+            if (err) throw err;
+            console.log("Added new role");
+            firstPrompt();
+        })
+    })
 }
+
+function addDepartment() {
+    var query = "INSERT INTO department (name) VALUES (?)"
+    inquirer.prompt([
+        {
+            name: "department",
+            type: "input",
+            message: "What is the new department name?"
+        }
+    ]).then(function(res) {
+        var departmentName = [res.department]
+        connection.query(query, departmentName, function(err, res) {
+            if (err) throw err;
+            console.log("Added new department");
+            firstPrompt();
+        })
+    })
+}
+
+function updateRole() {
+    inquirer.prompt([
+        {
+            name: "employee",
+            type: "input",
+            message: "What is the employee ID?"
+        },
+        {
+            name: "role",
+            type: "input",
+            message: "What is the employee's new role ID?"
+        }
+    ]).then(function(res) {
+        var sql = "UPDATE employee SET role_id = " + res.role + " WHERE id = " + res.employee;
+        connection.query(sql, function (err, res) {
+            if (err) throw err;
+            console.log("Role updated")
+            firstPrompt();
+        })
+    })
+}
+
+// firstPrompt();
